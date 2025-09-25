@@ -28,10 +28,9 @@
 ### 1.1 工程師角色 (Engineer Role)
 
 #### **1.1.1 存取方式：Personal Access Token (PAT)**
-- **存取媒介**：工程師將透過 GitHub **Fine-Grained Personal Access Token (PAT)** 進行程式碼的讀取與推送 (Push)。**嚴禁使用帳號密碼進行驗證。**
+- **存取媒介**：工程師將透過 GitHub **Fine-Grained Personal Access Token (PAT)** 進行程式碼的讀取與推送 (Push)。
 - **Token 效期與更新**：Token 將於**隔年 3 月 1 日**統一到期失效。新的 Token 會在**每年 1 月**寄出，以確保有充足的交接與更換時間。
-
-- **Token 權限設定**：請遵循「最小權限原則」，為 Token 設定以下 Repository Permissions：
+- **Token 權限設定**：Token 包含以下設定 Repository Permissions，有額外需求再請聯繫資訊承辦人。
 
 | 權限 (Permission) | 存取等級 (Access Level) | 用途說明 |
 | :--- | :--- |:--- |
@@ -46,18 +45,18 @@
 
 
 #### **1.1.2 開發流程與版本控制**
-- **`.gitignore` 檔案控管**：請務必在專案根目錄建立並維護 `.gitignore` 檔案，以確保倉儲的乾淨。**嚴禁**提交 IDE 設定檔、本機環境變數檔 (`.env`)、專案依賴套件 (`node_modules/`)、編譯產出物 (`dist/`) 等檔案。
+- **`.gitignore` 檔案控管**：請務必在專案根目錄建立並維護 `.gitignore` 檔案，以確保倉儲的乾淨。**嚴禁**提交 IDE 設定檔、本機環境變數檔 (`.env`)、專案依賴套件 (`node_modules/`)等檔案。
   > **提示**：您可以使用 [gitignore.io](https://www.toptal.com/developers/gitignore) 等線上工具快速產生推薦的設定檔。
 
-- **檔案大小限制**：單一檔案大小上限為 **500MB**。超過 100MB 的大型檔案請務必使用 **Git Large File Storage (Git LFS)** 管理。
+- **檔案大小限制**：超過 100MB 的大型檔案請使用 **Git Large File Storage (Git LFS)** 管理。
 
 - **分支與環境對應**：
     - `main` -> **正式環境 (Production)**
-    - `develop` -> **測試環境 (Testing/Staging)**
+    - `develop` -> **測試環境 (Testing)**
 
 - **開發工作流程 (Development Workflow)**：
     1. **接收 Issue**：從 PM 指派的 Issue 開始工作。
-    2. **建立分支**：從 `develop` 分支出來，並遵循命名規範：`[type] / issue#[issue-id] - [description]`
+    2. **建立分支**：從 `develop` 分支出來，並遵循命名規範：`[type] / [issue#id] - [description]`
         - **範例**：`feature/issue#42-user-login-page`
         - **分支類型 `[type]` 說明**：
           <details>
@@ -67,55 +66,41 @@
 
           #### `feature/` (功能分支)
             - **目的**: 用於開發一個**全新的功能**。
-            - **來源分支**: `develop`
-            - **目標分支**: `develop`
             - **使用情境**: 開發使用者登入頁面、實作購物車功能等需要較長開發週期的任務。
 
           #### `bugfix/` (錯誤修復分支)
             - **目的**: 用於修復在**開發過程**中發現的、**非緊急**的錯誤。
-            - **來源分支**: `develop`
-            - **目標分支**: `develop`
             - **使用情境**: 修復測試環境中按鈕顏色錯誤、表單驗證邏輯錯誤等問題。
 
           #### `hotfix/` (緊急修復分支)
             - **目的**: 緊急修復已上線的**正式環境 (Production)** 中發現的**嚴重錯誤**。
-            - **來源分支**: `main` **(⚠️ 關鍵區別)**
-            - **目標分支**: `main` **和** `develop`
             - **使用情境**: 修復線上支付功能失效、使用者資料外洩等需要立即處理的嚴重問題。完成後需同時合併回 `main` 和 `develop`。
 
           #### `release/` (發布分支)
             - **目的**: 用於準備**發布新版本**。此分支用於處理版本號更新、產出發布說明文件 (Changelog) 等最後階段的工作。
-            - **來源分支**: `develop`
-            - **目標分支**: `main` **和** `develop`
             - **使用情境**: 當 `develop` 分支已集成了所有預計要發布的功能後，建立此分支進行最後的準備。在此分支上不再增加新功能。
 
           #### `refactor/` (程式碼重構分支)
             - **目的**: 在**不改變既有功能**的前提下，對現有程式碼進行結構性調整、優化或清理。
-            - **來源分支**: `develop`
-            - **目標分支**: `develop`
             - **使用情境**: 優化資料庫查詢效能、簡化複雜的演算法、提升程式碼可讀性等。
 
           #### `docs/` (文件分支)
             - **目的**: 用於新增、修改或刪除**專案文件**。
-            - **來源分支**: `develop`
-            - **目標分支**: `develop`
             - **使用情境**: 撰寫 API 使用說明、更新 `README.md`、補充系統架構圖等。
 
           #### `chore/` (雜務分支)
             - **目的**: 用於處理不影響原始碼或測試的**雜項事務**。
-            - **來源分支**: `develop`
-            - **目標分支**: `develop`
             - **使用情境**: 更新建置腳本、調整 CI/CD 設定檔、升級開發工具等與專案維護相關的任務。
 
             ---
           </details>
 
 - **提交訊息 (Commit Message)**：提交訊息應清晰、有意義，並連結對應的 Issue。
-    - **格式**：`[type]: issue#[issue-id] - [description]`
+    - **格式**：`[type]: [issue#id] - [description]`
     - **範例**：
         - `feat: issue#42 - implement user login page`
         - `fix: issue#123 - correct button color on profile`
-    - > **提示**：使用 `issue#` 加上編號，會自動將您的 Commit 連結到 GitHub 上的 Issue，非常方便追蹤。
+    - > **提示**：使用 `issue#` 加上編號，會自動將您的 Commit 連結到 GitHub 上的 Issue，方便追蹤。
 
 #### **1.1.3 CI/CD 與部署說明**
 - **職責劃分**：我方負責準備 AWS 環境與權限串接；廠商僅需在 CI/CD 腳本中填入我方提供的部署目標位置（如 S3 Bucket 名稱）。
